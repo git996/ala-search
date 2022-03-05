@@ -7,6 +7,15 @@ div.search-wrapper{
 div.search-field{
     min-height: 60px;
     height: 10%;
+    transition: ease-in-out 0.2s;
+}
+div.search-field mat-form-field, div.search-field-large mat-form-field{
+    width: 50%;
+}
+
+div.search-field-large{
+    margin: 10% 0;
+    transition: ease-in-out 0.2s;
 }
 
 
@@ -14,7 +23,8 @@ div.search-filter{
     min-height: 40px;
     height: 2%;
     text-align: center;
-    margin: 10px 5px;
+  
+    padding: 20px;
 }
 
 div.search-filter button{
@@ -29,9 +39,7 @@ div.search-filter button{
     overflow-y: auto;
 }
 
-div.search-field mat-form-field{
-    width: 50%;
-}
+
 
  .cancel-search{
    cursor: pointer;

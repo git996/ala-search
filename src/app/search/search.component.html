@@ -1,6 +1,6 @@
 <div class="search-wrapper">
-    <h2>Species Search  - Atals of Living Australia </h2>
-    <div class="search-field">
+    <div class="{{searchTerm ? 'search-field':'search-field-large'}}">
+      <h2>Species Search  - Atals of Living Australia </h2>
         <mat-form-field  appearance="fill">
             <mat-label>Species</mat-label>
             <input matInput type="text" [value]="searchTerm" placeholder="e.g fish, marsupial, etc." (input)="handleSearchInput($event)">
@@ -11,36 +11,37 @@
                 <mat-icon>search</mat-icon>
               </mat-button>
           </mat-form-field>
-
     </div>
-    <div  class="search-filter">
-      <!-- Results: -->
-      <span  *ngIf="searchResults.totalRecords > 0 && !errorMessage"> <strong>{{searchResults.totalRecords}}</strong> results</span>
+    <div  class="search-filter" >
+      <span  *ngIf="searchResults.totalRecords > 0 && !errorMessage && searchTerm"> <strong>{{searchResults.totalRecords}}</strong> results</span>
       <span  class="error" *ngIf="!!errorMessage"> {{errorMessage}}</span>
       <span *ngIf="searchResults.totalRecords  < 1 && !isLoading && searchTerm.length > 0" > <strong>No</strong> results found</span>
-      <button mat-mini-fab  color="primary" matTooltip="Download top 100 results as CSV"  matTooltipPosition="left"  (click)="handleDownload()"><mat-icon>download</mat-icon></button>
+  
+      <button mat-mini-fab   *ngIf="searchResults.totalRecords > 0 && searchTerm"  color="primary" matTooltip="Download top 100 results as CSV"  matTooltipPosition="left"  (click)="handleDownload()"><mat-icon>download</mat-icon></button>
     </div>
-    <mat-progress-bar *ngIf="!!isLoading" mode="query"></mat-progress-bar>
-    <mat-divider></mat-divider>
-      <div class="search-results">
-            <mat-card class="result-card" *ngFor="let result of searchResults.results">
-              <mat-card-header>
-                <div *ngIf="result.imageUrl" mat-card-avatar matTooltip="Click to open in new tab"   matTooltipPosition="right" (click)="openImage(result.imageUrl)" 
-                   [ngStyle]="{'background-image': 'url(' + result.thumbnailUrl + ')'}">
-                </div>
-                <mat-card-title matTooltip ="Scientific Name" matTooltipPosition="right">{{result.scientificName || '-' }} </mat-card-title>
-                <mat-card-subtitle matTooltip ="Common Name(s)"  matTooltipPosition="right">{{result.commonName || result.acceptedConceptName  || 'N/A'}}</mat-card-subtitle>
-              </mat-card-header>
-            </mat-card>
 
-          <mat-divider  *ngIf=" searchResults.totalRecords > 0"></mat-divider>
-      </div>
-      <div class="paginator" *ngIf=" searchResults.totalRecords > 0">
-        <mat-paginator [length]="searchResults.totalRecords"
-            [pageSize]="resultsPerpage"
-            [pageSizeOptions]="[5, 10, 25, 100]"
-            (page)="handlePaginate($event)"
-            aria-label="Select page">
-         </mat-paginator>
-  </div>
+    <mat-progress-bar *ngIf="!!isLoading" mode="query"></mat-progress-bar>
+    <mat-divider  *ngIf="searchResults.totalRecords > 0 && searchTerm"></mat-divider>
+
+    <div class="search-results"  *ngIf="searchResults.totalRecords > 0 && searchTerm">
+          <mat-card class="result-card" *ngFor="let result of searchResults.results">
+            <mat-card-header>
+              <div *ngIf="result.imageUrl" mat-card-avatar matTooltip="Click to open in new tab"   matTooltipPosition="right" (click)="openImage(result.imageUrl)" 
+                  [ngStyle]="{'background-image': 'url(' + result.thumbnailUrl + ')'}">
+              </div>
+              <mat-card-title matTooltip ="Scientific Name" matTooltipPosition="right">{{result.scientificName || '-' }} </mat-card-title>
+              <mat-card-subtitle matTooltip ="Common Name(s)"  matTooltipPosition="right">{{result.commonName || result.acceptedConceptName  || 'N/A'}}</mat-card-subtitle>
+            </mat-card-header>
+          </mat-card>
+
+        <mat-divider></mat-divider>
+    </div>
+    <div class="paginator" *ngIf="searchResults.totalRecords > 0 && searchTerm">
+      <mat-paginator [length]="searchResults.totalRecords"
+          [pageSize]="resultsPerpage"
+          [pageSizeOptions]="[5, 10, 25, 100]"
+          (page)="handlePaginate($event)"
+          aria-label="Select page">
+        </mat-paginator>
+    </div>
 </div>
