@@ -39,9 +39,7 @@ div.search-filter button{
     overflow-y: auto;
 }
 
-
-
- .cancel-search{
+mat-button.cancel-search{
    cursor: pointer;
 }
 
