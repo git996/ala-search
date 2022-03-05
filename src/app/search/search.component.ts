@@ -44,7 +44,7 @@ export class SearchComponent implements OnInit {
 		if(this.searchTerm.length > 0){
 			// set loading state	
 			this.isLoading = true;
-			const request = new Request(`http://bie.ala.org.au/ws/search.json?q=${this.searchTerm}&fq=&dir=desc&sortField=score&rows=${this.resultsPerpage}`, {method: 'GET', mode:'cors'});
+			const request = new Request(`https://bie.ala.org.au/ws/search.json?q=${this.searchTerm}&fq=&dir=desc&sortField=score&rows=${this.resultsPerpage}`, {method: 'GET', mode:'cors'});
 			// fetch the request
 			fetch(request).then(async response => {
 				// if the http request is successful and the response is a 200/202, handle the data
@@ -92,7 +92,7 @@ export class SearchComponent implements OnInit {
 	if(this.resultsPerpage === 100 && this.searchResults.results.length === 100){
 		this.exportCSV(this.searchResults.results);
 	} else{
-		const request = new Request(`http://bie.ala.org.au/ws/search.json?q=${this.searchTerm}&fq=&dir=desc&sortField=score&rows=100`, {method: 'GET', mode:'cors'});
+		const request = new Request(`https://bie.ala.org.au/ws/search.json?q=${this.searchTerm}&fq=&dir=desc&sortField=score&rows=100`, {method: 'GET', mode:'cors'});
 		fetch(request).then(async response => {
 			// if the http request is successful and the response is a 200/202, handle the data
 			if(response.ok){
