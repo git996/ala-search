@@ -13,9 +13,9 @@
           </mat-form-field>
     </div>
     <div  class="search-filter" >
-      <span  *ngIf="searchResults.totalRecords > 0 && !errorMessage && searchTerm"> <strong>{{searchResults.totalRecords}}</strong> results</span>
+      <span  *ngIf="searchResults.totalRecords > 0 && !errorMessage && searchTerm"> <strong>{{searchResults.totalRecords}}</strong> results found</span>
       <span  class="error" *ngIf="!!errorMessage"> {{errorMessage}}</span>
-      <span *ngIf="searchResults.totalRecords  < 1 && !isLoading && searchTerm.length > 0" > <strong>No</strong> results found</span>
+      <span *ngIf="searchResults.totalRecords  < 1 && !isLoading && searchTerm.length > 0" > <strong>No</strong> result(s) found</span>
   
       <button mat-mini-fab   *ngIf="searchResults.totalRecords > 0 && searchTerm"  color="primary" matTooltip="Download top 100 results as CSV"  matTooltipPosition="left"  (click)="handleDownload()"><mat-icon>download</mat-icon></button>
     </div>
