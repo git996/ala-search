@@ -13,7 +13,7 @@ Run `npm i ` on the root directory to get all the required node modules.
 If you require a global installation of Angular CLI to run the steps below, run `npm i -g @angular/cli` to add Angular CLI to your system's gloabl node environment. 
 
 ### Design
-Due to my current familiarity with the Angular framework and its ease of integration with Google's Material UI library, I decided to use the Angular framework for this this application. Time constrains was another factor which lead to utilize a familiar framework to solve this problem. If small application with similar requirement to this one was to be developed for production usage, Angular would not be my first choice for a web framework due to its comparatively large overhead more suited for large scale multi-page applications and a steep learning curve. 
+Due to my current familiarity with the Angular framework and its ease of integration with Google's Material UI library, I decided to use the Angular framework for this this application. Time constrains was another factor which lead me to utilize a familiar framework to solve this problem. If a small application with similar requirement to this one was to be developed for production usage, Angular would not be my first choice for a web framework due to its comparatively large overhead more suited for large scale multi-page applications and a steep learning curve. 
 
 ### Styling
 Google's [Material](https://material.io/) styling implementation for [Angular](https://material.angular.io/guide/customizing-component-styles) has been used for general UI components which allows for just the imported components are packaged with the build. 
