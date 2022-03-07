@@ -20,6 +20,7 @@ export class SearchComponent {
 
 	// search filters and limits
 	resultsPerpage = 10;
+	pageIndex = 0;
 
 	// state variable
 	isLoading: boolean = false;
@@ -50,7 +51,7 @@ export class SearchComponent {
 			if(this.searchTerm.length > 0){
 				// set loading state	
 				this.isLoading = true;
-				const request = new Request(`${this.searchEndpoint}?q=${this.searchTerm}&fq=&dir=desc&sortField=score&rows=${this.resultsPerpage}`, {method: 'GET', mode:'cors'});
+				const request = new Request(`${this.searchEndpoint}?q=${this.searchTerm}&fq=&dir=desc&sortField=score&rows=${this.resultsPerpage}&start=${this.pageIndex * this.resultsPerpage}`, {method: 'GET', mode:'cors'});
 				// fetch the request
 				fetch(request).then(async response => {
 					// if the http request is successful and the response is a 200/202, handle the data
@@ -96,11 +97,12 @@ export class SearchComponent {
 	}
 
 	/**
-	 * handles partial pagination i.e. items per page since full offset search is not avilable on the API. 
+	 * handles pagination input by setting max results per page and the page index . 
 	 * @param event 
 	 */
 	handlePaginate(event: PageEvent){
 		this.resultsPerpage = event.pageSize;
+		this.pageIndex = event.pageIndex;
 		this.handleSearch();
 	}
 
@@ -109,7 +111,7 @@ export class SearchComponent {
 		if(this.resultsPerpage === 100 && this.searchResults.results.length === 100){
 			this.exportCSV(this.searchResults.results);
 		} else{
-			const request = new Request(`${this.searchEndpoint}?q=${this.searchTerm}&fq=&dir=desc&sortField=score&rows=100`, {method: 'GET', mode:'cors'});
+			const request = new Request(`${this.searchEndpoint}?q=${this.searchTerm}&fq=&dir=desc&sortField=score&rows=100&`, {method: 'GET', mode:'cors'});
 			fetch(request).then(async response => {
 				// if the request is successful and the response is a 200/202, handle the data
 				if(response.ok){
@@ -135,10 +137,10 @@ export class SearchComponent {
 	 * @param results 
 	 */
     exportCSV(results: any[]){
-		// set file name to the searvh tem. can be updated by the user durring the browsers doanload process
+		// set file name to the search tem. can be updated by the user durring the browsers doanload process
 		const fileName = this.searchTerm;
-		// requied attributes attributes
-		const exportHeaders  = ['id','guid','kingdom','kingdomGuid','scientificName','author','imageUrl'];
+		// requied attributes for exported csv . Also used as header for the exported csv.
+		const exportHeaders:string[]  = ['id','guid','kingdom','kingdomGuid','scientificName','author'];
 		const exportRows:any[] = [];
 		// generate a new rows object with only the required attributes
 		results.forEach(r => {
@@ -147,9 +149,14 @@ export class SearchComponent {
 		// comma delimiter 
 		const separator: string = ",";
 
+		// in this application instance, keys  is identical to exportHeaders and are interchangable.  lenghth of keys and exportHeader have to mach for the csv to be semantically valid. 
 		const keys: string[]  = Object.keys(exportRows[0]);
 
+		/**
+		 *  parse each atmoc cell value (if required), join each cell value within rows with the delimiter, join the rows with newline, join the headers, and return the final string
+		 */
 		const csvContent =
+		    //  sep meatadata header denotes the seperator. ocassionaly required by execl (and maybe other viewers)
 			"sep=,\n" +
 			exportHeaders.join(separator) +
 			'\n' +
@@ -167,7 +174,8 @@ export class SearchComponent {
 					return cell;
 				}).join(separator);
 		}).join('\n');
-
+		
+		// create blob with the csv mime type  and charset. 
 		const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
 		// @ts-ignore
 		if (navigator.msSaveBlob) { // In case of IE 10+
