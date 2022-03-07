@@ -1,6 +1,16 @@
-# AlaSearch
+# ALA Species Search
+
+A deployed instance of this application is accessible at https://git996.github.io/ala-search/.
+## About 
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.5.
+
+If running locally, an installtion of NodeJS and NPM is required. 
+
+Run `npm i ` on the root directly to get all the required node modules. 
+
+If you require a global installation of Angular CLI to run the steps below, run `npm i -g @angular/cli` to add Angular CLI to your system's gloabl node environment. 
+
 
 ## Development server
 
