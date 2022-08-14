@@ -1,6 +1,5 @@
 # ALA Species Search
 
-A deployed instance of this application is accessible at https://git996.github.io/ala-search/.
 ## About 
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.5.
